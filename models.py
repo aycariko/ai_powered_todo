@@ -1,16 +1,14 @@
 from database import Base, engine
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
 
-class ToDo (Base): #databasede oluşturduğumuz basei alıyoruz
+class ToDo (Base): 
     __tablename__ = "todos"
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String)
     description = Column(String)
     priority = Column(Integer)
     completed = Column(Boolean, default=False)
-    owner_id = Column(Integer, ForeignKey('users.id')) #bunu sonradan ekledik ve dbye eklenmedi
-    # migration yolu ile yapılmalı
-
+    owner_id = Column(Integer, ForeignKey('users.id')) 
 
 class User(Base):
     __tablename__ = "users"
