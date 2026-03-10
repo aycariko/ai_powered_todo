@@ -17,10 +17,8 @@ router = APIRouter(
 )
 
 templates = Jinja2Templates(directory="templates")
-
 SECRET_KEY = "acoztm3revp1vfj7ld5sz2ndg5xp79r9fnr2p4hx2dy63h6a8efhj6rm54u8evh8"
 ALGORITHM = "HS256"
-
 
 def get_db():
     db = SessionLocal()
@@ -29,12 +27,9 @@ def get_db():
     finally:
         db.close()
 
-
 db_dependency = Annotated[Session, Depends(get_db)]
-
 bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl="/auth/token")
-
 
 class CreateUserRequest(BaseModel):
     username: str
@@ -45,18 +40,15 @@ class CreateUserRequest(BaseModel):
     role: str
     phone_number: str
 
-
 class Token(BaseModel):
     access_token: str
     token_type: str
-
 
 def create_access_token(username: str, user_id: int, role: str, expires_delta: timedelta):
     payload = {'sub': username, 'id': user_id, 'role': role}
     expires = datetime.now(timezone.utc) + expires_delta
     payload.update({'exp': expires})
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
-
 
 def authenticate_user(username: str, password: str, db):
     user = db.query(User).filter(User.username == username).first()
@@ -65,7 +57,6 @@ def authenticate_user(username: str, password: str, db):
     if not bcrypt_context.verify(password, user.hashed_password):
         return False
     return user
-
 
 async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
     try:
@@ -79,16 +70,13 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
     except JWTError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Token is invalid")
 
-
 @router.get("/login-page")
 def render_login_page(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
-
 @router.get("/register-page")
 def render_register_page(request: Request):
     return templates.TemplateResponse("register.html", {"request": request})
-
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_user(db: db_dependency, create_user_request: CreateUserRequest):
@@ -104,7 +92,6 @@ async def create_user(db: db_dependency, create_user_request: CreateUserRequest)
     )
     db.add(user)
     db.commit()
-
 
 @router.post("/token", response_model = Token)
 async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm,Depends()],
