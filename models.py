@@ -1,4 +1,4 @@
-from database import Base, engine
+from .database import Base, engine
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
 
 class ToDo (Base): 
