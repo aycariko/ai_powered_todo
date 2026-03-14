@@ -17,7 +17,7 @@ router = APIRouter(
 )
 
 templates = Jinja2Templates(directory="app/templates")
-SECRET_KEY = "acoztm3revp1vfj7ld5sz2ndg5xp79r9fnr2p4hx2dy63h6a8efhj6rm54u8evh8"
+SECRET_KEY = "*********"
 ALGORITHM = "HS256"
 
 def get_db():
