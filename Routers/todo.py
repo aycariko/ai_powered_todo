@@ -3,9 +3,9 @@ from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 from starlette import status
 from starlette.responses import RedirectResponse
-from ..Routers.auth import get_current_user
-from ..models import Base, ToDo
-from ..database import  engine, SessionLocal
+from Routers.auth import get_current_user
+from models import Base, ToDo
+from database import  engine, SessionLocal
 from typing import Annotated
 from fastapi.templating import Jinja2Templates
 from dotenv import load_dotenv
@@ -21,7 +21,7 @@ router = APIRouter(
     tags=["Todo"],
 )
 #clienttan gelen veri doğru olmalı validation yapıyoruz.
-templates = Jinja2Templates(directory="app/templates")
+templates = Jinja2Templates(directory="templates")
 
 class ToDoRequest(BaseModel):
     title: str = Field(min_length=1)
