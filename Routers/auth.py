@@ -4,8 +4,8 @@ from typing import Annotated
 from sqlalchemy.orm import Session
 from starlette import status
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
-from ..database import SessionLocal
-from ..models import User
+from database import SessionLocal
+from models import User
 from passlib.context import CryptContext
 from jose import jwt, JWTError
 from datetime import timedelta, datetime, timezone
@@ -16,7 +16,7 @@ router = APIRouter(
     tags=["Authentication"],
 )
 
-templates = Jinja2Templates(directory="app/templates")
+templates = Jinja2Templates(directory="templates")
 SECRET_KEY = "*********"
 ALGORITHM = "HS256"
 
